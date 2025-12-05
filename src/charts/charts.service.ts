@@ -42,7 +42,7 @@ export class ChartsService {
       return null;
     }
 
-    maxElements = Math.min(maxElements, 2 * 24 * 365 * 5);
+    maxElements = Math.min(maxElements, 2 * 24 * 365 * 15);
 
     switch (chart.type) {
       case 'simple_pie':
