@@ -101,20 +101,22 @@ DO UPDATE SET value = EXCLUDED.value;
     }
 
     const pool = this.postgresService.getPool();
+    const tms2000Min = Math.max(0, tms2000Last - maxElements + 1);
     const response = await pool.query(
       `
 SELECT tms2000, value FROM historic_line_chart_data
-WHERE chartId = $1 AND lineName = $2 AND tms2000 <= $3
+WHERE chartId = $1 AND lineName = $2 AND tms2000 >= $3 AND tms2000 <= $4
 ORDER BY tms2000 DESC
-LIMIT $4;
+LIMIT $5;
       `,
-      [id, line, tms2000Last, maxElements],
+      [id, line, tms2000Min, tms2000Last, maxElements],
     );
 
-    const elements: Record<number, number> = {};
+    const elements: Record<number, number | null> = {};
 
     // Fill with 0s
-    for (let i = 0; i < maxElements; i++) {
+    const elementsToFill = Math.min(maxElements, tms2000Last + 1);
+    for (let i = 0; i < elementsToFill; i++) {
       const timestamp = this.dateUtilService.tms2000ToTimestamp(
         tms2000Last - i,
       );
@@ -127,13 +129,12 @@ LIMIT $4;
         row.value ?? null;
     }
 
-    // Convert to array
+    // Convert to array, skipping null values
     for (const [timestamp, value] of Object.entries(elements)) {
-      data.push([parseInt(timestamp), value]);
+      if (value !== null) {
+        data.push([parseInt(timestamp), value]);
+      }
     }
-
-    // Remove rows with null value
-    data = data.filter(([, value]) => value !== null);
 
     // Sort by timestamp
     data.sort((a, b) => b[0] - a[0]);
