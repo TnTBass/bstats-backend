@@ -352,6 +352,167 @@ export class PopulatorService {
         },
       },
       {
+        uid: 33,
+        id: 'servers',
+        type: 'single_linechart',
+        position: 0,
+        title: 'Servers',
+        default: true,
+        data: {
+          lineName: 'Servers',
+          filter: {
+            enabled: false,
+            maxValue: 1,
+            minValue: 1,
+          },
+        },
+      },
+      {
+        uid: 38,
+        id: 'osArch',
+        type: 'simple_pie',
+        position: 5,
+        title: 'System arch',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 37,
+        id: 'coreCount',
+        type: 'simple_pie',
+        position: 4,
+        title: 'Core count',
+        default: true,
+        data: {
+          filter: {
+            enabled: true,
+            useRegex: true,
+            blacklist: false,
+            filter: ['([0-9]){1,2}'],
+          },
+        },
+      },
+      {
+        uid: 35,
+        id: 'onlineMode',
+        type: 'simple_pie',
+        position: 2,
+        title: 'Online mode',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 34,
+        id: 'players',
+        type: 'single_linechart',
+        position: 1,
+        title: 'Players',
+        default: true,
+        data: {
+          lineName: 'Players',
+          filter: {
+            enabled: true,
+            maxValue: 200,
+            minValue: 0,
+          },
+        },
+      },
+      {
+        uid: 40,
+        id: 'location',
+        type: 'simple_pie',
+        position: 7,
+        title: 'Server Location',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 39,
+        id: 'os',
+        type: 'drilldown_pie',
+        position: 6,
+        title: 'Operating System',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 36,
+        id: 'minecraftVersion',
+        type: 'simple_pie',
+        position: 3,
+        title: 'Minecraft Version',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 42,
+        id: 'locationMap',
+        type: 'simple_map',
+        position: 9,
+        title: 'Server Location',
+        default: true,
+        data: {
+          valueName: 'Servers',
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 41,
+        id: 'javaVersion',
+        type: 'drilldown_pie',
+        position: 8,
+        title: 'Java Version',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
         uid: 21,
         id: 'location',
         type: 'simple_pie',
@@ -554,6 +715,14 @@ export class PopulatorService {
         software: 3,
         global: true,
         charts: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      },
+      {
+        id: 4,
+        name: '_fabric_',
+        owner: 'Admin',
+        software: 6,
+        global: true,
+        charts: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42],
       },
     ];
 
@@ -1201,6 +1370,209 @@ export class PopulatorService {
           'https://github.com/Bastian/bStats-Metrics/blob/master/bstats-sponge/src/examples/java/ExamplePlugin.java',
       },
       {
+        id: 6,
+        name: 'Fabric',
+        url: 'fabric',
+        globalPlugin: 4,
+        defaultCharts: [
+          {
+            type: 'single_linechart',
+            id: 'servers',
+            title: 'Servers using %plugin.name%',
+            data: {
+              lineName: 'Servers',
+              filter: {
+                enabled: false,
+                maxValue: 1,
+                minValue: 1,
+              },
+            },
+            requestParser: {
+              predefinedValue: 1,
+            },
+          },
+          {
+            type: 'single_linechart',
+            id: 'players',
+            title: 'Players on servers using %plugin.name%',
+            data: {
+              lineName: 'Players',
+              filter: {
+                enabled: true,
+                maxValue: 200,
+                minValue: 0,
+              },
+            },
+            requestParser: {
+              nameInRequest: 'playerAmount',
+              type: 'number',
+              position: 'global',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'onlineMode',
+            title: 'Online mode',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'onlineMode',
+              position: 'global',
+              type: 'boolean',
+              trueValue: 'online',
+              falseValue: 'offline',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'minecraftVersion',
+            title: 'Minecraft Version',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'minecraftVersion',
+              position: 'global',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'pluginVersion',
+            title: 'Plugin Version',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'pluginVersion',
+              position: 'plugin',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'coreCount',
+            title: 'Core count',
+            data: {
+              filter: {
+                enabled: true,
+                useRegex: true,
+                blacklist: false,
+                filter: ['([0-9]){1,2}'],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'coreCount',
+              type: 'number',
+              position: 'global',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'osArch',
+            title: 'System arch',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'osArch',
+              position: 'global',
+            },
+          },
+          {
+            type: 'drilldown_pie',
+            id: 'os',
+            title: 'Operating System',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              position: 'global',
+              useHardcodedParser: 'os',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'location',
+            title: 'Server Location',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              predefinedValue: '%country.name%',
+            },
+          },
+          {
+            type: 'drilldown_pie',
+            id: 'javaVersion',
+            title: 'Java Version',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              useHardcodedParser: 'javaVersion',
+              position: 'global',
+            },
+          },
+          {
+            type: 'simple_map',
+            id: 'locationMap',
+            title: 'Server Location',
+            data: {
+              valueName: 'Servers',
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              predefinedValue: 'AUTO',
+            },
+          },
+        ],
+        maxRequestsPerIp: 16,
+        metricsClass:
+          'https://github.com/Bastian/bstats-metrics/blob/master/bstats-fabric/src/main/java/org/bstats/fabric/Metrics.java',
+        examplePlugin:
+          'https://github.com/Bastian/bstats-metrics/blob/master/bstats-fabric/src/examples/java/ExampleMod.java',
+      },
+      {
         id: 4,
         name: 'Server Implementation',
         url: 'server-implementation',
@@ -1333,15 +1705,16 @@ export class PopulatorService {
       },
     ];
 
+    const connectionService = this.connectionService;
+    const logger = this.logger;
+
     // Check if the populator did already run
-    if ((await this.connectionService.getRedis().exists('plugins.ids')) == 1) {
+    if ((await connectionService.getRedis().exists('plugins.ids')) == 1) {
+      await ensureFabricSeed();
       return;
     }
 
     this.logger.log('Running redis populator');
-
-    const connectionService = this.connectionService;
-    const logger = this.logger;
 
     // Populate chart related stuff
     populateCharts();
@@ -1572,6 +1945,249 @@ export class PopulatorService {
           largestSoftwareId,
           getCallbackFunction('software.id-increment'),
         );
+    }
+
+    async function ensureFabricSeed() {
+      const fabricSoftware = serverSoftware.find(
+        (software) => software.url === 'fabric',
+      );
+      const fabricPlugin = plugins.find((plugin) => plugin.name === '_fabric_');
+
+      if (!fabricSoftware || !fabricPlugin) {
+        return;
+      }
+
+      const existingFabricSoftwareId = await connectionService
+        .getRedis()
+        .get('software.index.id.url:fabric');
+      if (existingFabricSoftwareId !== null) {
+        return;
+      }
+
+      const lockKey = 'seed-lock:fabric';
+      const lockValue = `${Date.now()}-${Math.random()}`;
+      const lockResult = await connectionService
+        .getRedis()
+        .set(lockKey, lockValue, 'PX', 60000, 'NX');
+
+      if (lockResult !== 'OK') {
+        return;
+      }
+
+      try {
+        const fabricSoftwareIdAfterLock = await connectionService
+          .getRedis()
+          .get('software.index.id.url:fabric');
+        if (fabricSoftwareIdAfterLock !== null) {
+          return;
+        }
+
+        logger.log('Backfilling Fabric redis seed data');
+
+        const effectiveSoftwareId = await reserveId(
+          'software',
+          fabricSoftware.id,
+          'software.id-increment',
+        );
+        const effectivePluginId = await reserveId(
+          'plugins',
+          fabricPlugin.id,
+          'plugins.id-increment',
+        );
+        const fabricChartIds = new Map<number, number>();
+        const fabricCharts = new Map(
+          charts
+            .filter((chart) => fabricPlugin.charts.indexOf(chart.uid) > -1)
+            .map((chart) => [chart.uid, chart]),
+        );
+        for (const chartUid of fabricPlugin.charts) {
+          const chart = fabricCharts.get(chartUid);
+          if (!chart) {
+            continue;
+          }
+
+          const effectiveChartUid = await reserveId(
+            'charts',
+            chart.uid,
+            'charts.uid-increment',
+          );
+          fabricChartIds.set(chart.uid, effectiveChartUid);
+
+          const data: any = {
+            id: chart.id,
+            type: chart.type,
+            position: chart.position,
+            title: chart.title,
+            data: JSON.stringify(chart.data),
+            pluginId: effectivePluginId,
+          };
+          if (chart.default) {
+            data.default = 1;
+          }
+
+          connectionService
+            .getRedis()
+            .hmset(
+              `charts:${effectiveChartUid}`,
+              data,
+              getCallbackFunction(`charts:${effectiveChartUid}`),
+            );
+          connectionService
+            .getRedis()
+            .sadd(
+              'charts.uids',
+              effectiveChartUid,
+              getCallbackFunction(
+                `Added ${effectiveChartUid} to 'charts.uids'`,
+                true,
+              ),
+            );
+        }
+
+        const effectivePluginChartIds = fabricPlugin.charts
+          .map((chartUid) => fabricChartIds.get(chartUid))
+          .filter((chartId): chartId is number => chartId !== undefined);
+
+        connectionService
+          .getRedis()
+          .hmset(
+            `plugins:${effectivePluginId}`,
+            {
+              name: fabricPlugin.name,
+              software: effectiveSoftwareId,
+              charts: JSON.stringify(effectivePluginChartIds),
+              owner: fabricPlugin.owner,
+              global: 1,
+            },
+            getCallbackFunction(`plugins:${effectivePluginId}`),
+          );
+        connectionService
+          .getRedis()
+          .set(
+            `plugins.index.id.url+name:${fabricSoftware.url}.${fabricPlugin.name}`,
+            effectivePluginId,
+            getCallbackFunction(
+              `plugins.index.id.url+name:${fabricSoftware.url}.${fabricPlugin.name}`,
+            ),
+          );
+        connectionService
+          .getRedis()
+          .sadd(
+            'plugins.ids',
+            effectivePluginId,
+            getCallbackFunction(
+              `Added ${effectivePluginId} to 'plugins.ids'`,
+              true,
+            ),
+          );
+        connectionService
+          .getRedis()
+          .sadd(
+            `users.index.plugins.username:${fabricPlugin.owner.toLowerCase()}`,
+            effectivePluginId,
+            getCallbackFunction(
+              `Added ${effectivePluginId} to 'users.index.plugins.username:${fabricPlugin.owner.toLowerCase()}'`,
+              true,
+            ),
+          );
+
+        for (const [chartUid, effectiveChartUid] of fabricChartIds) {
+          const chart = fabricCharts.get(chartUid);
+          if (!chart) {
+            continue;
+          }
+          connectionService
+            .getRedis()
+            .set(
+              `charts.index.uid.pluginId+chartId:${effectivePluginId}.${chart.id}`,
+              effectiveChartUid,
+              getCallbackFunction(
+                `charts.index.uid.pluginId+chartId:${effectivePluginId}.${chart.id}`,
+              ),
+            );
+          connectionService
+            .getRedis()
+            .hset(`charts:${effectiveChartUid}`, 'pluginId', effectivePluginId);
+        }
+
+        const data: any = {
+          name: fabricSoftware.name,
+          url: fabricSoftware.url,
+          maxRequestsPerIp: fabricSoftware.maxRequestsPerIp,
+          defaultCharts: JSON.stringify(fabricSoftware.defaultCharts),
+          globalPlugin: effectivePluginId,
+        };
+        if (fabricSoftware.metricsClass !== null) {
+          data.metricsClass = fabricSoftware.metricsClass;
+        }
+        if (fabricSoftware.examplePlugin !== null) {
+          data.examplePlugin = fabricSoftware.examplePlugin;
+        }
+
+        connectionService
+          .getRedis()
+          .hmset(
+            `software:${effectiveSoftwareId}`,
+            data,
+            getCallbackFunction(`software:${effectiveSoftwareId}`),
+          );
+        connectionService
+          .getRedis()
+          .set(
+            `software.index.id.url:${fabricSoftware.url}`,
+            effectiveSoftwareId,
+            getCallbackFunction(`software.index.id.url:${fabricSoftware.url}`),
+          );
+        connectionService
+          .getRedis()
+          .sadd(
+            'software.ids',
+            effectiveSoftwareId,
+            getCallbackFunction(
+              `Added ${effectiveSoftwareId} to 'software.ids'`,
+              true,
+            ),
+          );
+      } finally {
+        const currentLockValue = await connectionService.getRedis().get(lockKey);
+        if (currentLockValue === lockValue) {
+          await connectionService.getRedis().del(lockKey);
+        }
+      }
+    }
+
+    async function reserveId(
+      keyPrefix: string,
+      preferredId: number,
+      counterKey: string,
+    ): Promise<number> {
+      const existing = await connectionService
+        .getRedis()
+        .exists(`${keyPrefix}:${preferredId}`);
+      if (existing == 0) {
+        await ensureCounterAtLeast(counterKey, preferredId);
+        return preferredId;
+      }
+
+      await ensureCounterAtLeast(counterKey, preferredId);
+      let reservedId: number;
+      do {
+        reservedId = await connectionService.getRedis().incr(counterKey);
+      } while (
+        (await connectionService.getRedis().exists(`${keyPrefix}:${reservedId}`)) !=
+        0
+      );
+
+      return reservedId;
+    }
+
+    async function ensureCounterAtLeast(counterKey: string, value: number) {
+      const current = await connectionService.getRedis().get(counterKey);
+      if (current === null || parseInt(current, 10) < value) {
+        connectionService
+          .getRedis()
+          .set(counterKey, value, getCallbackFunction(counterKey));
+      }
     }
 
     /**
