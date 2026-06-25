@@ -6,9 +6,10 @@ import { ConnectionService } from './connection.service';
 @Injectable()
 export class PopulatorService {
   private readonly logger = new Logger(PopulatorService.name);
+  readonly ready: Promise<void>;
 
   constructor(private connectionService: ConnectionService) {
-    this.init();
+    this.ready = this.init();
   }
 
   private async init() {
@@ -352,6 +353,167 @@ export class PopulatorService {
         },
       },
       {
+        uid: 33,
+        id: 'servers',
+        type: 'single_linechart',
+        position: 0,
+        title: 'Servers',
+        default: true,
+        data: {
+          lineName: 'Servers',
+          filter: {
+            enabled: false,
+            maxValue: 1,
+            minValue: 1,
+          },
+        },
+      },
+      {
+        uid: 34,
+        id: 'players',
+        type: 'single_linechart',
+        position: 1,
+        title: 'Players',
+        default: true,
+        data: {
+          lineName: 'Players',
+          filter: {
+            enabled: true,
+            maxValue: 200,
+            minValue: 0,
+          },
+        },
+      },
+      {
+        uid: 35,
+        id: 'onlineMode',
+        type: 'simple_pie',
+        position: 2,
+        title: 'Online mode',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 36,
+        id: 'minecraftVersion',
+        type: 'simple_pie',
+        position: 3,
+        title: 'Minecraft Version',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 37,
+        id: 'coreCount',
+        type: 'simple_pie',
+        position: 4,
+        title: 'Core count',
+        default: true,
+        data: {
+          filter: {
+            enabled: true,
+            useRegex: true,
+            blacklist: false,
+            filter: ['([0-9]){1,2}'],
+          },
+        },
+      },
+      {
+        uid: 38,
+        id: 'osArch',
+        type: 'simple_pie',
+        position: 5,
+        title: 'System arch',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 39,
+        id: 'os',
+        type: 'drilldown_pie',
+        position: 6,
+        title: 'Operating System',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 40,
+        id: 'location',
+        type: 'simple_pie',
+        position: 7,
+        title: 'Server Location',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 41,
+        id: 'javaVersion',
+        type: 'drilldown_pie',
+        position: 8,
+        title: 'Java Version',
+        default: true,
+        data: {
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
+        uid: 42,
+        id: 'locationMap',
+        type: 'simple_map',
+        position: 9,
+        title: 'Server Location',
+        default: true,
+        data: {
+          valueName: 'Servers',
+          filter: {
+            enabled: false,
+            useRegex: false,
+            blacklist: false,
+            filter: [],
+          },
+        },
+      },
+      {
         uid: 21,
         id: 'location',
         type: 'simple_pie',
@@ -554,6 +716,14 @@ export class PopulatorService {
         software: 3,
         global: true,
         charts: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      },
+      {
+        id: 4,
+        name: '_neoforge_',
+        owner: 'Admin',
+        software: 6,
+        global: true,
+        charts: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42],
       },
     ];
 
@@ -1201,6 +1371,209 @@ export class PopulatorService {
           'https://github.com/Bastian/bStats-Metrics/blob/master/bstats-sponge/src/examples/java/ExamplePlugin.java',
       },
       {
+        id: 6,
+        name: 'NeoForge',
+        url: 'neoforge',
+        globalPlugin: 4,
+        defaultCharts: [
+          {
+            type: 'single_linechart',
+            id: 'servers',
+            title: 'Servers using %plugin.name%',
+            data: {
+              lineName: 'Servers',
+              filter: {
+                enabled: false,
+                maxValue: 1,
+                minValue: 1,
+              },
+            },
+            requestParser: {
+              predefinedValue: 1,
+            },
+          },
+          {
+            type: 'single_linechart',
+            id: 'players',
+            title: 'Players on servers using %plugin.name%',
+            data: {
+              lineName: 'Players',
+              filter: {
+                enabled: true,
+                maxValue: 200,
+                minValue: 0,
+              },
+            },
+            requestParser: {
+              nameInRequest: 'playerAmount',
+              type: 'number',
+              position: 'global',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'onlineMode',
+            title: 'Online mode',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'onlineMode',
+              position: 'global',
+              type: 'boolean',
+              trueValue: 'online',
+              falseValue: 'offline',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'minecraftVersion',
+            title: 'Minecraft Version',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'minecraftVersion',
+              position: 'global',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'pluginVersion',
+            title: 'Plugin Version',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'pluginVersion',
+              position: 'plugin',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'coreCount',
+            title: 'Core count',
+            data: {
+              filter: {
+                enabled: true,
+                useRegex: true,
+                blacklist: false,
+                filter: ['([0-9]){1,2}'],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'coreCount',
+              type: 'number',
+              position: 'global',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'osArch',
+            title: 'System arch',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              nameInRequest: 'osArch',
+              position: 'global',
+            },
+          },
+          {
+            type: 'drilldown_pie',
+            id: 'os',
+            title: 'Operating System',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              position: 'global',
+              useHardcodedParser: 'os',
+            },
+          },
+          {
+            type: 'simple_pie',
+            id: 'location',
+            title: 'Server Location',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              predefinedValue: '%country.name%',
+            },
+          },
+          {
+            type: 'drilldown_pie',
+            id: 'javaVersion',
+            title: 'Java Version',
+            data: {
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              useHardcodedParser: 'javaVersion',
+              position: 'global',
+            },
+          },
+          {
+            type: 'simple_map',
+            id: 'locationMap',
+            title: 'Server Location',
+            data: {
+              valueName: 'Servers',
+              filter: {
+                enabled: false,
+                useRegex: false,
+                blacklist: false,
+                filter: [],
+              },
+            },
+            requestParser: {
+              predefinedValue: 'AUTO',
+            },
+          },
+        ],
+        maxRequestsPerIp: 16,
+        metricsClass:
+          'https://github.com/Bastian/bStats-Metrics/blob/master/bstats-neoforge/src/main/java/org/bstats/neoforge/Metrics.java',
+        examplePlugin:
+          'https://github.com/Bastian/bStats-Metrics/blob/master/bstats-neoforge/src/examples/java/ExampleMod.java',
+      },
+      {
         id: 4,
         name: 'Server Implementation',
         url: 'server-implementation',
@@ -1333,15 +1706,16 @@ export class PopulatorService {
       },
     ];
 
+    const connectionService = this.connectionService;
+    const logger = this.logger;
+
     // Check if the populator did already run
-    if ((await this.connectionService.getRedis().exists('plugins.ids')) == 1) {
+    if ((await connectionService.getRedis().exists('plugins.ids')) == 1) {
+      await ensureSoftwareSeed('neoforge');
       return;
     }
 
     this.logger.log('Running redis populator');
-
-    const connectionService = this.connectionService;
-    const logger = this.logger;
 
     // Populate chart related stuff
     populateCharts();
@@ -1606,6 +1980,256 @@ export class PopulatorService {
               true,
             ),
           );
+      }
+    }
+
+    async function ensureSoftwareSeed(softwareUrl: string) {
+      const software = serverSoftware.find(
+        (serverSoftware) => serverSoftware.url === softwareUrl,
+      );
+      const plugin = plugins.find(
+        (plugin) => plugin.name === `_${softwareUrl}_`,
+      );
+
+      if (!software || !plugin) {
+        return;
+      }
+
+      const existingSoftwareId = await connectionService
+        .getRedis()
+        .get(`software.index.id.url:${softwareUrl}`);
+      if (existingSoftwareId !== null) {
+        return;
+      }
+
+      const lockKey = `seed-lock:${softwareUrl}`;
+      const lockValue = `${Date.now()}-${Math.random()}`;
+      const lockResult = await connectionService
+        .getRedis()
+        .set(lockKey, lockValue, 'PX', 60000, 'NX');
+
+      if (lockResult !== 'OK') {
+        return;
+      }
+
+      try {
+        const softwareIdAfterLock = await connectionService
+          .getRedis()
+          .get(`software.index.id.url:${softwareUrl}`);
+        if (softwareIdAfterLock !== null) {
+          return;
+        }
+
+        logger.log(`Backfilling ${software.name} redis seed data`);
+
+        const effectiveSoftwareId = await reserveId(
+          'software',
+          software.id,
+          'software.id-increment',
+          software.name,
+        );
+        const effectivePluginId = await reserveId(
+          'plugins',
+          plugin.id,
+          'plugins.id-increment',
+          software.name,
+        );
+        const chartIds = new Map<number, number>();
+        const seedCharts = new Map(
+          charts
+            .filter((chart) => plugin.charts.indexOf(chart.uid) > -1)
+            .map((chart) => [chart.uid, chart]),
+        );
+        for (const chartUid of plugin.charts) {
+          const chart = seedCharts.get(chartUid);
+          if (!chart) {
+            continue;
+          }
+
+          const effectiveChartUid = await reserveId(
+            'charts',
+            chart.uid,
+            'charts.uid-increment',
+            software.name,
+          );
+          chartIds.set(chart.uid, effectiveChartUid);
+
+          const data: any = {
+            id: chart.id,
+            type: chart.type,
+            position: chart.position,
+            title: chart.title,
+            data: JSON.stringify(chart.data),
+            pluginId: effectivePluginId,
+          };
+          if (chart.default) {
+            data.default = 1;
+          }
+
+          connectionService
+            .getRedis()
+            .hmset(
+              `charts:${effectiveChartUid}`,
+              data,
+              getCallbackFunction(`charts:${effectiveChartUid}`),
+            );
+          connectionService
+            .getRedis()
+            .sadd(
+              'charts.uids',
+              effectiveChartUid,
+              getCallbackFunction(
+                `Added ${effectiveChartUid} to 'charts.uids'`,
+                true,
+              ),
+            );
+        }
+
+        const effectivePluginChartIds = plugin.charts
+          .map((chartUid) => chartIds.get(chartUid))
+          .filter((chartId): chartId is number => chartId !== undefined);
+
+        connectionService
+          .getRedis()
+          .hmset(
+            `plugins:${effectivePluginId}`,
+            {
+              name: plugin.name,
+              software: effectiveSoftwareId,
+              charts: JSON.stringify(effectivePluginChartIds),
+              owner: plugin.owner,
+              global: 1,
+            },
+            getCallbackFunction(`plugins:${effectivePluginId}`),
+          );
+        connectionService
+          .getRedis()
+          .set(
+            `plugins.index.id.url+name:${software.url}.${plugin.name}`,
+            effectivePluginId,
+            getCallbackFunction(
+              `plugins.index.id.url+name:${software.url}.${plugin.name}`,
+            ),
+          );
+        connectionService
+          .getRedis()
+          .sadd(
+            'plugins.ids',
+            effectivePluginId,
+            getCallbackFunction(
+              `Added ${effectivePluginId} to 'plugins.ids'`,
+              true,
+            ),
+          );
+        connectionService
+          .getRedis()
+          .sadd(
+            `users.index.plugins.username:${plugin.owner.toLowerCase()}`,
+            effectivePluginId,
+            getCallbackFunction(
+              `Added ${effectivePluginId} to 'users.index.plugins.username:${plugin.owner.toLowerCase()}'`,
+              true,
+            ),
+          );
+
+        for (const [chartUid, effectiveChartUid] of chartIds) {
+          const chart = seedCharts.get(chartUid);
+          if (!chart) {
+            continue;
+          }
+          connectionService
+            .getRedis()
+            .set(
+              `charts.index.uid.pluginId+chartId:${effectivePluginId}.${chart.id}`,
+              effectiveChartUid,
+              getCallbackFunction(
+                `charts.index.uid.pluginId+chartId:${effectivePluginId}.${chart.id}`,
+              ),
+            );
+        }
+
+        const data: any = {
+          name: software.name,
+          url: software.url,
+          maxRequestsPerIp: software.maxRequestsPerIp,
+          defaultCharts: JSON.stringify(software.defaultCharts),
+          globalPlugin: effectivePluginId,
+        };
+        if (software.metricsClass !== null) {
+          data.metricsClass = software.metricsClass;
+        }
+        if (software.examplePlugin !== null) {
+          data.examplePlugin = software.examplePlugin;
+        }
+
+        connectionService
+          .getRedis()
+          .hmset(
+            `software:${effectiveSoftwareId}`,
+            data,
+            getCallbackFunction(`software:${effectiveSoftwareId}`),
+          );
+        await connectionService
+          .getRedis()
+          .set(
+            `software.index.id.url:${software.url}`,
+            effectiveSoftwareId,
+          );
+        connectionService
+          .getRedis()
+          .sadd(
+            'software.ids',
+            effectiveSoftwareId,
+            getCallbackFunction(
+              `Added ${effectiveSoftwareId} to 'software.ids'`,
+              true,
+            ),
+          );
+      } finally {
+        const currentLockValue = await connectionService.getRedis().get(lockKey);
+        if (currentLockValue === lockValue) {
+          await connectionService.getRedis().del(lockKey);
+        }
+      }
+    }
+
+    async function reserveId(
+      keyPrefix: string,
+      preferredId: number,
+      counterKey: string,
+      seedName: string,
+    ): Promise<number> {
+      const existing = await connectionService
+        .getRedis()
+        .exists(`${keyPrefix}:${preferredId}`);
+      if (existing == 0) {
+        await ensureCounterAtLeast(counterKey, preferredId);
+        return preferredId;
+      }
+
+      await ensureCounterAtLeast(counterKey, preferredId);
+      let reservedId: number;
+      let attempts = 0;
+      do {
+        attempts++;
+        if (attempts > 1000) {
+          throw new Error(
+            `Unable to reserve ${keyPrefix} id for ${seedName} seed data`,
+          );
+        }
+        reservedId = await connectionService.getRedis().incr(counterKey);
+      } while (
+        (await connectionService.getRedis().exists(`${keyPrefix}:${reservedId}`)) !=
+        0
+      );
+
+      return reservedId;
+    }
+
+    async function ensureCounterAtLeast(counterKey: string, value: number) {
+      const current = await connectionService.getRedis().get(counterKey);
+      if (current === null || parseInt(current, 10) < value) {
+        await connectionService.getRedis().set(counterKey, value);
       }
     }
 
